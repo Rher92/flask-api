@@ -53,7 +53,7 @@ deploy:
     - chmod +x ./release.sh
     - docker build
         --tag $HEROKU_REGISTRY_IMAGE
-        --file ./Dockerfile.prod
+        --file ./dockerfile.prod
         "."
     - docker login -u _ -p $HEROKU_AUTH_TOKEN registry.heroku.com
     - docker push $HEROKU_REGISTRY_IMAGE
