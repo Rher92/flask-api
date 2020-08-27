@@ -40,21 +40,21 @@ test:
     - black project --check
     - isort project/**/*.py --check-only
 
-  deploy:
-    stage: deploy
-    services:
-      - docker:dind
-    variables:
-      DOCKER_DRIVER: overlay2
-      HEROKU_APP_NAME: afternoon-savannah-22537
-      HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
-    script:
-      - apk add --no-cache curl
-      - chmod +x ./release.sh
-      - docker build
-          --tag $HEROKU_REGISTRY_IMAGE
-          --file ./Dockerfile.prod
-          "."
-      - docker login -u _ -p $HEROKU_AUTH_TOKEN registry.heroku.com
-      - docker push $HEROKU_REGISTRY_IMAGE
-      - ./release.sh      
+deploy:
+  stage: deploy
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    HEROKU_APP_NAME: afternoon-savannah-22537
+    HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
+  script:
+    - apk add --no-cache curl
+    - chmod +x ./release.sh
+    - docker build
+        --tag $HEROKU_REGISTRY_IMAGE
+        --file ./Dockerfile.prod
+        "."
+    - docker login -u _ -p $HEROKU_AUTH_TOKEN registry.heroku.com
+    - docker push $HEROKU_REGISTRY_IMAGE
+    - ./release.sh      
